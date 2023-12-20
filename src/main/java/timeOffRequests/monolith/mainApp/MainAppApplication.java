@@ -23,8 +23,5 @@ public class MainAppApplication {
 		return new ModelMapper();
 	}
 
-//	@Bean
-//	public SMSNotifier smsNotifier(SMSService smsService) {
-//		return new SMSNotifier(smsService);
-//	}
+	String t = "test a value change";
 }
