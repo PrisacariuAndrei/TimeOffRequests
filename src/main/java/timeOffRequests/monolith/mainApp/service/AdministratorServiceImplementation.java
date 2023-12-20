@@ -7,14 +7,17 @@ import timeOffRequests.monolith.mainApp.ApiException;
 import timeOffRequests.monolith.mainApp.ErrorCode;
 import timeOffRequests.monolith.mainApp.dto.request.CreateEmployeeDTO;
 import timeOffRequests.monolith.mainApp.dto.request.CreateAdministratorDTO;
+import timeOffRequests.monolith.mainApp.dto.response.DaysOffDTO;
 import timeOffRequests.monolith.mainApp.dto.response.EmployeeDTO;
 import timeOffRequests.monolith.mainApp.dto.response.AdministratorDTO;
 import timeOffRequests.monolith.mainApp.entity.DaysOff;
 import timeOffRequests.monolith.mainApp.entity.Employee;
 import timeOffRequests.monolith.mainApp.entity.Administrator;
 import timeOffRequests.monolith.mainApp.observer.DaysOffObserver;
+import timeOffRequests.monolith.mainApp.repository.DaysOffRepository;
 import timeOffRequests.monolith.mainApp.repository.EmployeeRepository;
 import timeOffRequests.monolith.mainApp.repository.AdministratorRepository;
+import timeOffRequests.monolith.mainApp.singleton.ReportGenerator;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,11 +32,13 @@ public class AdministratorServiceImplementation implements AdministratorService 
     private final AdministratorRepository administratorRepository;
     @Autowired
     private final EmployeeRepository employeeRepository;
+    private final ReportGenerator reportGenerator;
     private final ModelMapper modelMapper;
 
-    public AdministratorServiceImplementation(AdministratorRepository administratorRepository, EmployeeRepository employeeRepository, ModelMapper modelMapper) {
+    public AdministratorServiceImplementation(AdministratorRepository administratorRepository, EmployeeRepository employeeRepository, DaysOffRepository daysOffRepository, ReportGenerator reportGenerator, ModelMapper modelMapper) {
         this.administratorRepository = administratorRepository;
         this.employeeRepository = employeeRepository;
+        this.reportGenerator = reportGenerator;
         this.modelMapper = modelMapper;
     }
 
@@ -60,9 +65,7 @@ public class AdministratorServiceImplementation implements AdministratorService 
 
     @Override
     public List<AdministratorDTO> getAllAdministrators() {
-        return administratorRepository.findAll().stream()
-                .map(AdministratorDTO::new)
-                .collect(Collectors.toList());
+        return reportGenerator.getAllAdministrators();
     }
 
     @Override
@@ -109,9 +112,7 @@ public class AdministratorServiceImplementation implements AdministratorService 
 
     @Override
     public List<EmployeeDTO> getAllEmployee() {
-        return employeeRepository.findAll().stream()
-                .map(EmployeeDTO::new)
-                .collect(Collectors.toList());
+        return reportGenerator.getAllEmployees();
     }
 
     @Override
@@ -133,37 +134,9 @@ public class AdministratorServiceImplementation implements AdministratorService 
         return updatedEmployee;
     }
 
-    // Implementing the logic for Observer here
-    private List<Consumer<AdministratorDTO>> observers = new ArrayList<>();
-
+    //Singleton
     @Override
-    public void registerObserver(AdministratorDTO observer) {
-        observers.add((Consumer<AdministratorDTO>) observer);
+    public List<DaysOffDTO> getAllReports() {
+        return reportGenerator.getAllReports();
     }
-
-    @Override
-    public void removeObserver(Consumer<Void> observer) {
-        observers.remove(observer);
-    }
-
-    @Override
-    public void updateDaysOff() {
-        // Perform DaysOff update logic
-
-        // Notify observers
-        //notifyObservers();
-    }
-
-//    private void notifyObservers(DaysOff daysOff) {
-//        for (Observer observer : observers) {
-//            observer.update(daysOff);
-//        }
-//    }
-//
-    private void notifyObservers(AdministratorDTO administratorDTO) {
-        for (Consumer<AdministratorDTO> admin: observers) {
-            admin.accept(administratorDTO);
-        }
-    }
-
 }

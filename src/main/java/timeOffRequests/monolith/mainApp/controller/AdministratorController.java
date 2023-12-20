@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import timeOffRequests.monolith.mainApp.dto.request.CreateEmployeeDTO;
 import timeOffRequests.monolith.mainApp.dto.request.CreateAdministratorDTO;
+import timeOffRequests.monolith.mainApp.dto.response.DaysOffDTO;
 import timeOffRequests.monolith.mainApp.dto.response.EmployeeDTO;
 import timeOffRequests.monolith.mainApp.dto.response.AdministratorDTO;
 import timeOffRequests.monolith.mainApp.entity.Employee;
@@ -27,7 +28,6 @@ public class AdministratorController {
 
     @PostMapping("/save-administrator")
     ResponseEntity<AdministratorDTO> saveAdministrator(@RequestBody CreateAdministratorDTO newAdministrator) {
-        notifyObservers(administratorService.saveAdministrator(newAdministrator));
         return new ResponseEntity<>(administratorService.saveAdministrator(newAdministrator), HttpStatus.CREATED);
     }
 
@@ -76,9 +76,8 @@ public class AdministratorController {
         administratorService.deleteEmployeeById(employeeId);
     }
 
-    private void notifyObservers(AdministratorDTO admin) {
-        for (DaysOffObserver observer : observers) {
-            observer.notifyNewDaysOffRequestCreated(admin);
-        }
+    @GetMapping("/allReports")
+    ResponseEntity<List<DaysOffDTO>> getAllReports() {
+        return ResponseEntity.ok(administratorService.getAllReports());
     }
 }

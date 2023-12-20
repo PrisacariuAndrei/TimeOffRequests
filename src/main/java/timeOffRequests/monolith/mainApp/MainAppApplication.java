@@ -22,6 +22,4 @@ public class MainAppApplication {
 	public ModelMapper modelMapper() {
 		return new ModelMapper();
 	}
-
-	String t = "test a value change";
 }

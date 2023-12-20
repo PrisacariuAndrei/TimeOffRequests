@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import timeOffRequests.monolith.mainApp.dto.response.AdministratorDTO;
+import timeOffRequests.monolith.mainApp.dto.response.DaysOffDTO;
 import timeOffRequests.monolith.mainApp.entity.Administrator;
 
 import java.io.IOException;
@@ -19,11 +20,11 @@ import java.io.IOException;
 public class EmailObserver implements DaysOffObserver{
 
     @Override
-    public void notifyNewDaysOffRequestCreated(AdministratorDTO admin) {
+    public void notifyNewDaysOffRequestCreated(DaysOffDTO reports) {
         sendEmail();
     }
     private void sendEmail() {
-        System.out.println("Sending email notification");
+        System.out.println("Sending email notification: New day off report created!");
     }
 
 /*  private void sendEmail() {
