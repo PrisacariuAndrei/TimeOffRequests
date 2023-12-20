@@ -16,7 +16,6 @@ public class EmployeeDTO {
     private String middleName;
     private String userName;
     private String password;
-    private String rank;
 
     public EmployeeDTO(Employee employee) {
         this.id = employee.getId();
@@ -25,6 +24,5 @@ public class EmployeeDTO {
         this.middleName = employee.getMiddleName();
         this.userName = employee.getUserName();
         this.password = employee.getPassword();
-        this.rank = employee.getRank();
     }
 }

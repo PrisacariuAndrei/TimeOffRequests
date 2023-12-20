@@ -5,7 +5,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.web.client.RestTemplate;
-import timeOffRequests.monolith.mainApp.entity.Manager;
+import timeOffRequests.monolith.mainApp.observer.DaysOffObserver;
 
 @SpringBootApplication
 public class MainAppApplication {
@@ -22,4 +22,9 @@ public class MainAppApplication {
 	public ModelMapper modelMapper() {
 		return new ModelMapper();
 	}
+
+//	@Bean
+//	public SMSNotifier smsNotifier(SMSService smsService) {
+//		return new SMSNotifier(smsService);
+//	}
 }
