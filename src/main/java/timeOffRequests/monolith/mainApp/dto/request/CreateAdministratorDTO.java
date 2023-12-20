@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class CreateEmployeeDTO {
+public class CreateAdministratorDTO {
 
     private Long id;
     private String surname;
@@ -15,4 +15,9 @@ public class CreateEmployeeDTO {
     private String middleName;
     private String userName;
     private String password;
+    private String rank;
+
+    public String getPhoneNumber() {
+        return "5555-12345";
+    }
 }
