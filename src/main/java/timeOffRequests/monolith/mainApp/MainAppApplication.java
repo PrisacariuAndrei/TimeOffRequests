@@ -22,9 +22,5 @@ public class MainAppApplication {
 	public ModelMapper modelMapper() {
 		return new ModelMapper();
 	}
-
-//	@Bean
-//	public SMSNotifier smsNotifier(SMSService smsService) {
-//		return new SMSNotifier(smsService);
-//	}
 }
+

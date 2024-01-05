@@ -6,13 +6,16 @@ import org.springframework.stereotype.Service;
 import timeOffRequests.monolith.mainApp.ApiException;
 import timeOffRequests.monolith.mainApp.ErrorCode;
 import timeOffRequests.monolith.mainApp.dto.request.CreateDaysOffDTO;
+import timeOffRequests.monolith.mainApp.dto.response.AdministratorDTO;
 import timeOffRequests.monolith.mainApp.dto.response.DaysOffDTO;
 import timeOffRequests.monolith.mainApp.entity.DaysOff;
 import timeOffRequests.monolith.mainApp.factory.*;
 import timeOffRequests.monolith.mainApp.repository.DaysOffRepository;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 @Service
@@ -80,5 +83,38 @@ public class EmployeeServiceImplementation implements EmployeeService {
     @Override
     public DaysOff updateDaysOff(Long daysOffId, DaysOff daysOff) {
         return null;
+    }
+
+    // Implementing the logic for Observer here
+    private List<Consumer<DaysOffDTO>> observers = new ArrayList<>();
+
+    @Override
+    public void registerObserver(DaysOffDTO observer) {
+        observers.add((Consumer<DaysOffDTO>) observer);
+    }
+
+    @Override
+    public void removeObserver(Consumer<Void> observer) {
+        observers.remove(observer);
+    }
+
+    @Override
+    public void updateDaysOff() {
+        // Perform DaysOff update logic
+
+        // Notify observers
+        //notifyObservers();
+    }
+
+    //    private void notifyObservers(DaysOff daysOff) {
+//        for (Observer observer : observers) {
+//            observer.update(daysOff);
+//        }
+//    }
+//
+    private void notifyObservers(DaysOffDTO daysOffDTO) {
+        for (Consumer<DaysOffDTO> report: observers) {
+            report.accept(daysOffDTO);
+        }
     }
 }
