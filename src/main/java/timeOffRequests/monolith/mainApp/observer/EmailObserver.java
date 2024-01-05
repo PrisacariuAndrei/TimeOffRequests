@@ -16,6 +16,8 @@ import timeOffRequests.monolith.mainApp.entity.Administrator;
 
 import java.io.IOException;
 
+//SENDGRID API KEY: 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
+
 @Component
 public class EmailObserver implements DaysOffObserver{
 
